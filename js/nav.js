@@ -39,7 +39,7 @@ function updateNavOnLogin() {
 
 /** Show new story submit form on click on "submit." */
 function navSubmitClick(evt) {
-  $submitStoryForm.toggleClass("hidden");
+  $submitStoryFormContainer.toggleClass("hidden");
 }
 
 $navStorySubmit.on("click", navSubmitClick);

@@ -35,7 +35,8 @@
     <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
   </div>
   <div>
-    <a class="nav-link" href="#" id="nav-submit">submit</a>
+    <!-- We can make the id a little more specific -->
+    <a class="nav-link" href="#" id="nav-story-submit">submit</a>
   </div>
   <div class="nav-right">
     <a class="nav-link" href="#" id="nav-login">login/signup</a>
@@ -48,11 +49,26 @@
 <section id="new-story-form-container" class="hidden">
   <form id="new-story-form">
     <label for="story-author-input">Author</label>
-    <input type="text" id="story-author-input" class="story-form-input" placeholder="Story Author">
+    <input
+      type="text"
+      id="story-author-input"
+      class="story-form-input"
+      placeholder="Story Author">
+
     <label for="story-title-input">Title</label>
-    <input type="text" id="story-title-input" class="story-form-input" placeholder="Story Title">
+    <input
+      type="text"
+      id="story-title-input"
+      class="story-form-input"
+      placeholder="Story Title">
+
     <label for="story-url-input">URL</label>
-    <input type="text" id="story-url-input" class="story-form-input" placeholder="Story URL">
+    <input
+      type="text"
+      id="story-url-input"
+      class="story-form-input"
+      placeholder="Story URL">
+
     <button id="story-submit-button">Submit</button>
   </form>
 </section>

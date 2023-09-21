@@ -7,8 +7,9 @@ const $body = $("body");
 const $storiesLoadingMsg = $("#stories-loading-msg");
 const $allStoriesList = $("#all-stories-list");
 
-const $submitStoryForm = $("#new-story-form-container");
-const $navStorySubmit = $("#nav-submit");
+const $submitStoryFormContainer = $("#new-story-form-container");
+const $submitStoryForm = $("#new-story-form");
+const $navStorySubmit = $("#nav-story-submit");
 const $storySubmitButton = $("#story-submit-button");
 
 const $loginForm = $("#login-form");
@@ -26,7 +27,7 @@ const $navLogOut = $("#nav-logout");
 function hidePageComponents() {
   const components = [
     $allStoriesList,
-    $submitStoryForm, // We added this.
+    $submitStoryFormContainer, // We added this.
     $loginForm,
     $signupForm,
   ];

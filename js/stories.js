@@ -52,7 +52,8 @@ function putStoriesOnPage() {
 }
 
 /** Gets the data from the form, adds the story to storyList and the DOM. */
-async function addStoryAndUpdatePage() {
+async function addStoryAndUpdatePage(evt) {
+  evt.preventDefault();
 
   const author = $("#story-author-input").val();
   const title = $("#story-title-input").val();
@@ -60,9 +61,10 @@ async function addStoryAndUpdatePage() {
 
   const newStory = await storyList.addStory(currentUser,{title,author,url});
   $allStoriesList.prepend(generateStoryMarkup(newStory));
+
+  $submitStoryForm.get(0).reset();
+  $submitStoryFormContainer.addClass("hidden");
 }
 
-$storySubmitButton.on("click", async evt => {
-  evt.preventDefault();
-  await addStoryAndUpdatePage();
-});
+
+$storySubmitButton.on("click", addStoryAndUpdatePage);
