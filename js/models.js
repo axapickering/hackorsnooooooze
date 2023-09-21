@@ -81,10 +81,10 @@ class StoryList {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token, story })
     };
-    const response = await fetch(`${BASE_URL}/stories`,options);
+    const response = await fetch(`${BASE_URL}/stories`, options);
     const storyData = await response.json();
     console.debug(storyData);
-    const {author,createdAt,storyId,title,url,username} = storyData.story;
+    const { author, createdAt, storyId, title, url, username } = storyData.story;
 
     const newStory = new Story({
       author,
@@ -95,8 +95,8 @@ class StoryList {
       username
     });
 
-  this.stories.unshift(newStory);
-  return newStory;
+    this.stories.unshift(newStory);
+    return newStory;
 
   }
 }
@@ -189,6 +189,30 @@ class User {
       },
       userData.token
     );
+  }
+
+  /**
+   * takes in a story, adds story to user's favorites
+   */
+  async addFavorite(story) {
+    console.debug("add favorites reached");
+    console.debug("token: ",currentUser.loginToken);
+    const response = await fetch(`${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
+    {
+      method: "POST",
+      body: JSON.stringify({token: currentUser.loginToken }),
+      headers: {
+        "content-type": "application/json",
+      }});
+    currentUser.favorites.unshift(story);
+
+  }
+
+    /**
+   * takes in a story, removes story from user's favorites
+   */
+  removeFavorite(story) {
+
   }
 
   /** When we already have credentials (token & username) for a user,
