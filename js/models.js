@@ -83,8 +83,8 @@ class StoryList {
     };
     const response = await fetch(`${BASE_URL}/stories`,options);
     const storyData = await response.json();
-
-    const {author,createdAt,storyId,title,url,username} = await storyData.story;
+    console.debug(storyData);
+    const {author,createdAt,storyId,title,url,username} = storyData.story;
 
     const storyToAdd = new Story({
                                   author,
@@ -94,7 +94,7 @@ class StoryList {
                                   url,
                                   username});
 
-  this.stories.push(storyToAdd);
+  this.stories.unshift(storyToAdd);
   return storyToAdd;
 
   }
