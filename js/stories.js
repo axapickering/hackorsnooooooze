@@ -9,7 +9,7 @@ async function getAndShowStoriesOnStart() {
   storyList = await StoryList.getStories();
   $storiesLoadingMsg.remove();
 
-  putStoriesOnPage();
+  putStoriesOnPage(storyList.stories);
 }
 
 /**
@@ -23,8 +23,16 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+
+  const starStr = (isFavorite(story.storyId))
+    ?
+    "-fill" :
+    "";
+
   return $(`
       <li id="${story.storyId}">
+        <i class="bi bi-star${starStr}">
+
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -37,13 +45,13 @@ function generateStoryMarkup(story) {
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
-function putStoriesOnPage() {
+function putStoriesOnPage(stories) {
   console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 
   // loop through all of our stories and generate HTML for them
-  for (let story of storyList.stories) {
+  for (let story of stories) {
     const $story = generateStoryMarkup(story);
     $allStoriesList.append($story);
   }
@@ -66,5 +74,42 @@ async function addStoryAndUpdatePage(evt) {
   $submitStoryFormContainer.addClass("hidden");
 }
 
-
 $storySubmitButton.on("click", addStoryAndUpdatePage);
+
+/** Handles favorite icon click by adding or removing the story from the
+ * user's favorites
+ */
+
+async function handleFavoriteIconClick(evt) {
+  const $story = $(evt.target).closest('li');
+  const storyId = $story.attr('id');
+
+  console.log("handleFavoriteIconClick $story=", $story);
+  console.log("handleFavoriteIconClick storyId=", storyId);
+  // Get story by story ID
+  const story = await Story.getStory(storyId);
+  await toggleFavorite(story);
+
+  // Toggle the icon fill.
+  $(evt.target).toggleClass('bi-star');
+  $(evt.target).toggleClass('bi-star-fill');
+}
+
+/**
+ * If the story is favorited, remove it from favorites. Otherwise, add it
+ * to favorites.
+ */
+async function toggleFavorite(story) {
+  if (isFavorite(story.storyId)) {
+    await currentUser.removeFavorite(story);
+  } else {
+    await currentUser.addFavorite(story);
+  }
+}
+
+/** Checks if this story ID has been favorited by the user. */
+function isFavorite(storyId) {
+  return currentUser.favorites.map(s => s.storyId).includes(storyId);
+}
+
+$allStoriesList.on('click', '.bi', handleFavoriteIconClick);
