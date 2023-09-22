@@ -55,9 +55,19 @@ function navFavoritesClick() {
 
 $navFavorites.on("click", navFavoritesClick);
 
-function navUserProfile() {
+/** Shows user's stories on click. */
+
+function navMyStoriesClick() {
+  hidePageComponents();
+  putStoriesOnPage(currentUser.ownStories);
+}
+
+$navMyStories.on("click", navMyStoriesClick);
+
+/** Show user profile on click. */
+function navUserProfileClick() {
   hidePageComponents();
   $userProfileContainer.show();
 }
 
-$navUserProfile.on("click", navUserProfile);
+$navUserProfile.on("click", navUserProfileClick);

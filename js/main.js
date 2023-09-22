@@ -17,6 +17,7 @@ const $submitStoryForm = $("#new-story-form");
 const $navUserFunctions = $("#nav-user-functions") // $navUserFunctionsContainer ?
 const $navStorySubmit = $("#nav-story-submit");
 const $navFavorites = $('#nav-favorites');
+const $navMyStories = $('#nav-my-stories');
 const $navLogin = $("#nav-login");
 const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");

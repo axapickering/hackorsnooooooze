@@ -86,6 +86,7 @@ async function addStoryAndUpdatePage(evt) {
 
   const newStory = await storyList.addStory(currentUser, { title, author, url });
   $allStoriesList.prepend(generateStoryMarkup(newStory));
+  currentUser.ownStories.push(newStory);
 
   $submitStoryForm.get(0).reset();
   $submitStoryFormContainer.hide();
@@ -130,6 +131,5 @@ async function handleFavoriteIconClick(evt) {
 //     await currentUser.addFavorite(story);
 //   }
 // }
-
 
 $allStoriesList.on('click', '.favorite-icon', handleFavoriteIconClick);
