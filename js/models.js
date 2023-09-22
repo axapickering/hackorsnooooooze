@@ -197,6 +197,10 @@ class User {
     );
   }
 
+  /** TODO: Make POST or DELETE calls to the favorite API. */
+  static async _callFavoriteApi() {
+
+  }
   /**
    * takes in a story, adds story to user's favorites
    */
@@ -225,7 +229,7 @@ class User {
       headers: {
         "content-type": "application/json",
       }});
-    currentUser.favorites.shift();
+    currentUser.favorites.shift(); // TODO: currentUser.favorites = currentUser.favorites.filter((s) => s.storyId !== story.storyId);
   }
 
   /** When we already have credentials (token & username) for a user,

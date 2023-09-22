@@ -25,6 +25,7 @@ function generateStoryMarkup(story) {
 
   const hostName = story.getHostName();
 
+  // TODO: Refactor into a generateFavoriteIconMarkup() function.
   let starStr = "";
   if (currentUser) {
     starStr = '<i class="bi bi-star';
@@ -96,6 +97,8 @@ async function handleFavoriteIconClick(evt) {
   console.log("handleFavoriteIconClick storyId=", storyId);
   // Get story by story ID
   const story = await Story.getStory(storyId);
+
+  /** TODO: More performant to look for class in DOM rather than traverse favorites array.*/
   await toggleFavorite(story);
 
   // Toggle the icon fill.
@@ -115,11 +118,15 @@ async function toggleFavorite(story) {
   }
 }
 
+
+
 /** Checks if this story ID has been favorited by current user.
  *  Returns a boolean
  */
 function isFavorite(storyId) {
+  // TODO: currentUser.favorites.some(s => s.storyId === storyId);
   return currentUser.favorites.map(s => s.storyId).includes(storyId);
 }
 
+// TODO: Make a "favorite-icon" class to track these instead of using bootstrap class.
 $allStoriesList.on('click', '.bi', handleFavoriteIconClick);
