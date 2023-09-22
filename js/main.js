@@ -13,6 +13,7 @@ const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
 const $submitStoryForm = $("#new-story-form");
 
+const $navUserFunctions = $("#nav-user-functions") // $navUserFunctionsContainer ?
 const $navStorySubmit = $("#nav-story-submit");
 const $navFavorites = $('#nav-favorites');
 const $navLogin = $("#nav-login");

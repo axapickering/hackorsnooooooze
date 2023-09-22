@@ -8,6 +8,7 @@ let storyList;
 async function getAndShowStoriesOnStart() {
   storyList = await StoryList.getStories();
   $storiesLoadingMsg.remove();
+  $navUserFunctions.hide();
 
   putStoriesOnPage(storyList.stories);
 }
@@ -24,14 +25,19 @@ function generateStoryMarkup(story) {
 
   const hostName = story.getHostName();
 
-  const starStr = (isFavorite(story.storyId))
+  let starStr = "";
+  if (currentUser) {
+    starStr = '<i class="bi bi-star'
+    starStr += (isFavorite(story.storyId))
     ?
-    "-fill" :
-    "";
+    '-fill">' :
+    '">';
+  }
 
   return $(`
       <li id="${story.storyId}">
-        <i class="bi bi-star${starStr}">
+
+        ${starStr}
 
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
