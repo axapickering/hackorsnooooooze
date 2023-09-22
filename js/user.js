@@ -101,9 +101,10 @@ function populateUserProfileOnLogin() {
   const $userProfileUsername = $('#user-profile-username');
   const $userProfileAccountCreated = $('#user-profile-account-created');
 
+  const createdAtDate = new Date(currentUser.createdAt);
   $userProfileName.text(`Name: ${currentUser.name}`);
   $userProfileUsername.text(`Username: ${currentUser.username}`);
-  $userProfileAccountCreated.text(`Account Created: ${currentUser.createdAt}`);
+  $userProfileAccountCreated.text(`Account Created: ${createdAtDate.getFullYear()}-${createdAtDate.getMonth()}-${createdAtDate.getDate()}`);
 }
 
 /******************************************************************************
