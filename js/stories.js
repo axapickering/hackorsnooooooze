@@ -27,11 +27,11 @@ function generateStoryMarkup(story) {
 
   let starStr = "";
   if (currentUser) {
-    starStr = '<i class="bi bi-star'
+    starStr = '<i class="bi bi-star';
     starStr += (isFavorite(story.storyId))
-    ?
-    '-fill">' :
-    '">';
+      ?
+      '-fill">' :
+      '">';
   }
 
   return $(`
@@ -73,11 +73,13 @@ async function addStoryAndUpdatePage(evt) {
   const title = $("#story-title-input").val();
   const url = $("#story-url-input").val();
 
-  const newStory = await storyList.addStory(currentUser,{title,author,url});
+  const newStory = await storyList.addStory(currentUser, { title, author, url });
   $allStoriesList.prepend(generateStoryMarkup(newStory));
 
   $submitStoryForm.get(0).reset();
   $submitStoryFormContainer.hide();
+
+  putStoriesOnPage(storyList.stories);
 }
 
 $submitStoryForm.on("submit", addStoryAndUpdatePage);

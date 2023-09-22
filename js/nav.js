@@ -39,6 +39,8 @@ function updateNavOnLogin() {
 
 /** Show new story submit form on click on "submit." */
 function navSubmitClick(evt) {
+  hidePageComponents();
+  $submitStoryForm.get(0).reset();
   $submitStoryFormContainer.show();
 }
 
@@ -52,3 +54,10 @@ function navFavoritesClick() {
 }
 
 $navFavorites.on("click", navFavoritesClick);
+
+function navUserProfile() {
+  hidePageComponents();
+  $userProfileContainer.show();
+}
+
+$navUserProfile.on("click", navUserProfile);

@@ -96,6 +96,16 @@ function saveUserCredentialsInLocalStorage() {
   }
 }
 
+function populateUserProfileOnLogin() {
+  const $userProfileName = $('#user-profile-name');
+  const $userProfileUsername = $('#user-profile-username');
+  const $userProfileAccountCreated = $('#user-profile-account-created');
+
+  $userProfileName.text(`Name: ${currentUser.name}`);
+  $userProfileUsername.text(`Username: ${currentUser.username}`);
+  $userProfileAccountCreated.text(`Account Created: ${currentUser.createdAt}`);
+}
+
 /******************************************************************************
  * General UI stuff about users
  */
@@ -116,4 +126,5 @@ function updateUIOnUserLogin() {
 
   putStoriesOnPage(storyList.stories); // Refreshes story list so favorite icons appear.
   updateNavOnLogin();
+  populateUserProfileOnLogin();
 }
