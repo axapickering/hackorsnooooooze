@@ -43,7 +43,7 @@ function generateStoryMarkup(story) {
     `);
 }
 
-/** Gets list of stories from server, generates their HTML, and puts on page. */
+/** Given an array of stories, generates their HTML, and puts on page. */
 
 function putStoriesOnPage(stories) {
   console.debug("putStoriesOnPage");
@@ -71,10 +71,10 @@ async function addStoryAndUpdatePage(evt) {
   $allStoriesList.prepend(generateStoryMarkup(newStory));
 
   $submitStoryForm.get(0).reset();
-  $submitStoryFormContainer.addClass("hidden");
+  $submitStoryFormContainer.hide();
 }
 
-$storySubmitButton.on("click", addStoryAndUpdatePage);
+$submitStoryForm.on("submit", addStoryAndUpdatePage);
 
 /** Handles favorite icon click by adding or removing the story from the
  * user's favorites
@@ -107,7 +107,9 @@ async function toggleFavorite(story) {
   }
 }
 
-/** Checks if this story ID has been favorited by the user. */
+/** Checks if this story ID has been favorited by current user.
+ *  Returns a boolean
+ */
 function isFavorite(storyId) {
   return currentUser.favorites.map(s => s.storyId).includes(storyId);
 }

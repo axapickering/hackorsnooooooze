@@ -214,7 +214,7 @@ class User {
 
   }
 
-    /**
+  /**
    * takes in a story, removes story from user's favorites
    */
   async removeFavorite(story) {

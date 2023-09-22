@@ -39,7 +39,7 @@ function updateNavOnLogin() {
 
 /** Show new story submit form on click on "submit." */
 function navSubmitClick(evt) {
-  $submitStoryFormContainer.toggleClass("hidden");
+  $submitStoryFormContainer.show();
 }
 
 $navStorySubmit.on("click", navSubmitClick);
@@ -47,6 +47,7 @@ $navStorySubmit.on("click", navSubmitClick);
 /** Shows favorites on click. */
 
 function navFavoritesClick() {
+  hidePageComponents();
   putStoriesOnPage(currentUser.favorites);
 }
 

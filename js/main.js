@@ -8,11 +8,10 @@ const $storiesLoadingMsg = $("#stories-loading-msg");
 const $allStoriesList = $("#all-stories-list");
 
 const $submitStoryFormContainer = $("#new-story-form-container");
-const $submitStoryForm = $("#new-story-form");
-const $storySubmitButton = $("#story-submit-button");
 
 const $loginForm = $("#login-form");
 const $signupForm = $("#signup-form");
+const $submitStoryForm = $("#new-story-form");
 
 const $navStorySubmit = $("#nav-story-submit");
 const $navFavorites = $('#nav-favorites');
