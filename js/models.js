@@ -33,6 +33,16 @@ class Story {
     const data = await response.json();
     return new Story(data.story);
   }
+
+    /** Checks if this story ID has been favorited by current user.
+ *    Returns a boolean
+ *    Static to bypass API call (no story needed)
+ */
+    static isFavorite(storyId) {
+      return currentUser.favorites.some(s => storyId === s.storyId);
+    }
+
+
 }
 
 
@@ -105,6 +115,7 @@ class StoryList {
     return newStory;
 
   }
+
 }
 
 
@@ -197,23 +208,29 @@ class User {
     );
   }
 
-  /** TODO: Make POST or DELETE calls to the favorite API. */
-  static async _callFavoriteApi() {
+/**
+ *  given a protocol method (POST/DELETE), performs a fetch request
+ *  to the API to add or remove a favorite for current user.
+ */
+  static async _callFavoriteApi(method) {
+    // validating method
+    if (!["POST","DELETE"].includes(method)) return;
 
+    const response = await fetch(`${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
+      {
+        method,
+        body: JSON.stringify({ token: currentUser.loginToken }),
+        headers: {
+          "content-type": "application/json",
+        }
+      });
   }
   /**
    * takes in a story, adds story to user's favorites
    */
   async addFavorite(story) {
-    console.debug("add favorites reached");
-    console.debug("token: ",currentUser.loginToken);
-    const response = await fetch(`${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
-    {
-      method: "POST",
-      body: JSON.stringify({token: currentUser.loginToken }),
-      headers: {
-        "content-type": "application/json",
-      }});
+
+    User._callFavoriteApi("POST");
     currentUser.favorites.unshift(story);
 
   }
@@ -222,14 +239,9 @@ class User {
    * takes in a story, removes story from user's favorites
    */
   async removeFavorite(story) {
-    const response = await fetch(`${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
-    {
-      method: "DELETE",
-      body: JSON.stringify({token: currentUser.loginToken }),
-      headers: {
-        "content-type": "application/json",
-      }});
-    currentUser.favorites.shift(); // TODO: currentUser.favorites = currentUser.favorites.filter((s) => s.storyId !== story.storyId);
+
+    User._callFavoriteApi("DELETE");
+    currentUser.favorites = currentUser.favorites.filter((s) => s.storyId !== story.storyId);
   }
 
   /** When we already have credentials (token & username) for a user,

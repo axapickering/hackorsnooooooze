@@ -13,6 +13,25 @@ async function getAndShowStoriesOnStart() {
   putStoriesOnPage(storyList.stories);
 }
 
+function generateFavoriteIconMarkup(story) {
+  let favoriteIconMarkup = '<i class="favorite-icon bi bi-star';
+  if (currentUser) {
+
+    favoriteIconMarkup += (Story.isFavorite(story.storyId))
+      ?
+      '-fill">' :
+      '">';
+
+  } else {
+
+    favoriteIconMarkup += ' hidden">';
+
+  }
+  return favoriteIconMarkup;
+}
+
+
+
 /**
  * A render method to render HTML for an individual Story instance
  * - story: an instance of Story
@@ -21,24 +40,15 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
+   console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
-
-  // TODO: Refactor into a generateFavoriteIconMarkup() function.
-  let starStr = "";
-  if (currentUser) {
-    starStr = '<i class="bi bi-star';
-    starStr += (isFavorite(story.storyId))
-      ?
-      '-fill">' :
-      '">';
-  }
+  const favoriteMarkup = generateFavoriteIconMarkup(story);
 
   return $(`
       <li id="${story.storyId}">
 
-        ${starStr}
+        ${favoriteMarkup}</i>
 
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
@@ -90,43 +100,36 @@ $submitStoryForm.on("submit", addStoryAndUpdatePage);
  */
 
 async function handleFavoriteIconClick(evt) {
+
   const $story = $(evt.target).closest('li');
   const storyId = $story.attr('id');
+  const isFavorite = $(evt.target).hasClass("bi-star-fill");
 
-  console.log("handleFavoriteIconClick $story=", $story);
-  console.log("handleFavoriteIconClick storyId=", storyId);
   // Get story by story ID
   const story = await Story.getStory(storyId);
 
-  /** TODO: More performant to look for class in DOM rather than traverse favorites array.*/
-  await toggleFavorite(story);
+  if (isFavorite) {
+    await currentUser.removeFavorite(story);
+  } else {
+    await currentUser.addFavorite(story);
+  }
 
   // Toggle the icon fill.
   $(evt.target).toggleClass('bi-star');
   $(evt.target).toggleClass('bi-star-fill');
 }
 
-/**
- * If the story is favorited, remove it from favorites. Otherwise, add it
- * to favorites.
- */
-async function toggleFavorite(story) {
-  if (isFavorite(story.storyId)) {
-    await currentUser.removeFavorite(story);
-  } else {
-    await currentUser.addFavorite(story);
-  }
-}
+// /**
+//  * If the story is favorited, remove it from favorites. Otherwise, add it
+//  * to favorites.
+//  */
+// async function toggleFavorite(story) {
+//   if (isFavorite(story.storyId)) {
+//     await currentUser.removeFavorite(story);
+//   } else {
+//     await currentUser.addFavorite(story);
+//   }
+// }
 
 
-
-/** Checks if this story ID has been favorited by current user.
- *  Returns a boolean
- */
-function isFavorite(storyId) {
-  // TODO: currentUser.favorites.some(s => s.storyId === storyId);
-  return currentUser.favorites.map(s => s.storyId).includes(storyId);
-}
-
-// TODO: Make a "favorite-icon" class to track these instead of using bootstrap class.
-$allStoriesList.on('click', '.bi', handleFavoriteIconClick);
+$allStoriesList.on('click', '.favorite-icon', handleFavoriteIconClick);
