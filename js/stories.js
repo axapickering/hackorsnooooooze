@@ -86,7 +86,7 @@ async function addStoryAndUpdatePage(evt) {
 
   const newStory = await storyList.addStory(currentUser, { title, author, url });
   $allStoriesList.prepend(generateStoryMarkup(newStory));
-  currentUser.ownStories.push(newStory);
+  currentUser.ownStories.unshift(newStory);
 
   $submitStoryForm.get(0).reset();
   $submitStoryFormContainer.hide();
@@ -120,16 +120,17 @@ async function handleFavoriteIconClick(evt) {
   $(evt.target).toggleClass('bi-star-fill');
 }
 
-// /**
-//  * If the story is favorited, remove it from favorites. Otherwise, add it
-//  * to favorites.
-//  */
-// async function toggleFavorite(story) {
-//   if (isFavorite(story.storyId)) {
-//     await currentUser.removeFavorite(story);
-//   } else {
-//     await currentUser.addFavorite(story);
-//   }
-// }
-
 $allStoriesList.on('click', '.favorite-icon', handleFavoriteIconClick);
+
+function addDeleteIconsToStories() {
+  $('li').prepend('<i class="bi bi-trash trash-icon"></i>');
+}
+
+async function handleDeleteIconClick(evt) {
+  const $story = $(evt.target).closest('li');
+  const storyId = $story.attr('id');
+  console.debug(storyId);
+  Story.deleteStory(storyId);
+}
+
+$allStoriesList.on('click', '.trash-icon', handleDeleteIconClick);

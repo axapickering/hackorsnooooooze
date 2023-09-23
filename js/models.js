@@ -34,14 +34,24 @@ class Story {
     return new Story(data.story);
   }
 
-    /** Checks if this story ID has been favorited by current user.
- *    Returns a boolean
- *    Static to bypass API call (no story needed)
- */
-    static isFavorite(storyId) {
-      return currentUser.favorites.some(s => storyId === s.storyId);
-    }
+  static async deleteStory(storyId) {
+    const token = currentUser.loginToken;
+    const options = {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token })
+    };
+    const response = await fetch(`${BASE_URL}/stories/${storyId}`, options);
+  }
 
+
+  /** Checks if this story ID has been favorited by current user.
+  *    Returns a boolean
+  *    Static to bypass API call (no story needed)
+  */
+  static isFavorite(storyId) {
+    return currentUser.favorites.some(s => storyId === s.storyId);
+  }
 
 }
 
@@ -208,13 +218,13 @@ class User {
     );
   }
 
-/**
- *  given a protocol method (POST/DELETE), performs a fetch request
- *  to the API to add or remove a favorite for current user.
- */
+  /**
+   *  given a protocol method (POST/DELETE), performs a fetch request
+   *  to the API to add or remove a favorite for current user.
+   */
   static async _callFavoriteApi(method) {
     // validating method
-    if (!["POST","DELETE"].includes(method)) return;
+    if (!["POST", "DELETE"].includes(method)) return;
 
     const response = await fetch(`${BASE_URL}/users/${currentUser.username}/favorites/${story.storyId}`,
       {

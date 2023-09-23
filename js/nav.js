@@ -60,6 +60,7 @@ $navFavorites.on("click", navFavoritesClick);
 function navMyStoriesClick() {
   hidePageComponents();
   putStoriesOnPage(currentUser.ownStories);
+  addDeleteIconsToStories();
 }
 
 $navMyStories.on("click", navMyStoriesClick);
